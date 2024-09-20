@@ -178,7 +178,30 @@ public class REST {
   }
 
   public REST post(String endpoint) {
+    execHttpCall(buildPostRequest(endpoint));
+    return this;
+  }
+
+  public REST post(String endpoint, JsonNode json) {
+    RequestBody requestBody = RequestBody.create(json.toString(), JSON);
     execHttpCall(buildPostRequest(endpoint, requestBody));
+    return this;
+  }
+
+  public REST put(String endpoint) {
+    execHttpCall(buildPutRequest(endpoint));
+    return this;
+  }
+
+  public REST put(String endpoint, JsonNode json) {
+    RequestBody requestBody = RequestBody.create(json.toString(), JSON);
+    execHttpCall(buildPutRequest(endpoint, requestBody));
+    return this;
+  }
+
+  public REST patch(String endpoint, JsonNode json) {
+    RequestBody requestBody = RequestBody.create(json.toString(), JSON);
+    execHttpCall(buildPatchRequest(endpoint, requestBody));
     return this;
   }
 
@@ -313,12 +336,52 @@ public class REST {
         .build();
   }
 
+  public Request buildPostRequest(String endpoint) {
+    HttpUrl url = buildUrl(endpoint);
+    LOGGER.debug("buildPostRequest (null body): {}", url);
+    return new Request.Builder()
+        .url(url)
+        .method("POST", null)
+        .header("Authorization", credential)
+        .build();
+  }
+
   public Request buildPostRequest(String endpoint, RequestBody body) {
     HttpUrl url = buildUrl(endpoint);
     LOGGER.debug("buildPostRequest: {}", url);
     return new Request.Builder()
         .url(url)
         .post(body)
+        .header("Authorization", credential)
+        .build();
+  }
+
+  public Request buildPutRequest(String endpoint) {
+    HttpUrl url = buildUrl(endpoint);
+    LOGGER.debug("buildPutRequest (null body): {}", url);
+    return new Request.Builder()
+        .url(url)
+        .method("PUT", null)
+        .header("Authorization", credential)
+        .build();
+  }
+
+  public Request buildPutRequest(String endpoint, RequestBody body) {
+    HttpUrl url = buildUrl(endpoint);
+    LOGGER.debug("buildPutRequest: {}", url);
+    return new Request.Builder()
+        .url(url)
+        .put(body)
+        .header("Authorization", credential)
+        .build();
+  }
+
+  public Request buildPatchRequest(String endpoint, RequestBody body) {
+    HttpUrl url = buildUrl(endpoint);
+    LOGGER.debug("buildPatchRequest: {}", url);
+    return new Request.Builder()
+        .url(url)
+        .patch(body)
         .header("Authorization", credential)
         .build();
   }
@@ -345,7 +408,7 @@ public class REST {
             record = record.get(category);
           }
           int pages = record.get(pagesTag).asInt();
-          if (totalTag != null)
+          if (totalTag != null && record.has(totalTag))
             pagedTotal = record.get(totalTag).asInt();
 
           if (pages > 1) {

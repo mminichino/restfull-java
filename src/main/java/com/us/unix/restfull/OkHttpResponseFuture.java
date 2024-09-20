@@ -1,5 +1,6 @@
 package com.us.unix.restfull;
 
+import com.us.unix.restfull.exceptions.HttpResponseException;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -20,7 +21,11 @@ public class OkHttpResponseFuture implements Callback {
   }
 
   @Override
-  public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+  public void onResponse(@NotNull Call call, @NotNull Response response) {
+//    if (!response.isSuccessful()) {
+//      future.completeExceptionally(new HttpResponseException());
+//    } else {
     future.complete(response);
+//    }
   }
 }
