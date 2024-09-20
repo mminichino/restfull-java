@@ -1,4 +1,4 @@
-package com.us.unix.cbclone.core.exceptions;
+package com.us.unix.restfull.exceptions;
 
 public class HttpResponseException extends Exception {
 }
