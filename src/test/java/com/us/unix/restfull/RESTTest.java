@@ -194,4 +194,30 @@ public class RESTTest {
     }
     Assertions.fail();
   }
+
+  @Test
+  public void testRest13() {
+    REST client = new REST(hostname, username, password, useSsl).enableDebug(enableDebug);
+    String endpoint = "/api/users";
+    try {
+      ArrayNode result = client.getPaged(endpoint, "page", "total_pages", "per_page").validate().jsonList();
+      Assertions.assertEquals("Lindsay", result.get(7).get("first_name").asText());
+    } catch (HttpResponseException e) {
+      LOGGER.error(e.getMessage(), e);
+      Assertions.fail();
+    }
+  }
+
+  @Test
+  public void testRest14() {
+    REST client = new REST(hostname, username, password, useSsl).enableDebug(enableDebug);
+    String endpoint = "/api/users";
+    try {
+      ArrayNode result = client.getPaged(endpoint, "page", "total_pages", "per_page").validate().jsonList();
+      Assertions.assertEquals("Tobias", result.get(8).get("first_name").asText());
+    } catch (HttpResponseException e) {
+      LOGGER.error(e.getMessage(), e);
+      Assertions.fail();
+    }
+  }
 }

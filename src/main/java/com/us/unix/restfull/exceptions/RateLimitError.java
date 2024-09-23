@@ -1,7 +1,15 @@
 package com.us.unix.restfull.exceptions;
 
+/**
+ * HTTP 429 Rate Limit Error exception class.
+ */
 public class RateLimitError extends HttpResponseException {
-  public RateLimitError(String s) {
+  /**
+   * Exception class.
+   *
+   * @param message Error message.
+   */
+  public RateLimitError(String message) {
     super();
   }
 }

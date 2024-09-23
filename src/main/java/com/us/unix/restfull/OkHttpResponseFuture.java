@@ -1,6 +1,5 @@
 package com.us.unix.restfull;
 
-import com.us.unix.restfull.exceptions.HttpResponseException;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -9,9 +8,18 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * Completable future support for OkHttp Responses.
+ */
 public class OkHttpResponseFuture implements Callback {
+  /**
+   * Completable future object.
+   */
   public final CompletableFuture<Response> future = new CompletableFuture<>();
 
+  /**
+   * Class constructor.
+   */
   public OkHttpResponseFuture() {
   }
 
@@ -22,10 +30,6 @@ public class OkHttpResponseFuture implements Callback {
 
   @Override
   public void onResponse(@NotNull Call call, @NotNull Response response) {
-//    if (!response.isSuccessful()) {
-//      future.completeExceptionally(new HttpResponseException());
-//    } else {
     future.complete(response);
-//    }
   }
 }

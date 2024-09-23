@@ -1,7 +1,15 @@
 package com.us.unix.restfull.exceptions;
 
+/**
+ * Retryable Error exception class.
+ */
 public class RetryableError extends HttpResponseException {
-  public RetryableError(String format) {
+  /**
+   * Exception class.
+   *
+   * @param message Error message.
+   */
+  public RetryableError(String message) {
     super();
   }
 }
